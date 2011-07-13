@@ -1,0 +1,10 @@
+name: Cocoa
+main: net.mabako.minecraft.Cocoa.CocoaPlugin
+website: http://minecraft.mabako.net
+author: mabako (mabako@gmail.com)
+version: 1.00
+description: Enables world-editing with Cocoa
+commands:
+    cocoa:
+        description: Gives you Cocoa beans
+        usage: /cocoa
