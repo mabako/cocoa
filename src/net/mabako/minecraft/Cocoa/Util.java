@@ -114,7 +114,7 @@ public class Util
 				return null;
 
 		}
-		return null;
+		return material;
 	}
 
 	private static boolean same( ItemStack item, Block block )

@@ -46,8 +46,7 @@ public class CocoaPlayerListener extends PlayerListener
 			}
 
 			// Can't modify air or bedrock
-			if( block == null || block.getType( ) == Material.AIR
-					|| block.getType( ) == Material.BEDROCK )
+			if( block == null || block.getType( ) == Material.AIR || block.getType( ) == Material.BEDROCK )
 				return;
 
 			if( action == Action.LEFT_CLICK_BLOCK )
