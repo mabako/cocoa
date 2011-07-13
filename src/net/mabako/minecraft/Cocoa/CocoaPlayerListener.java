@@ -10,25 +10,11 @@ import org.bukkit.event.player.PlayerListener;
 
 /**
  * Player Listener for Cocoa that enables its world-editing properties
- * 
  * @author mabako (mabako@gmail.com)
  */
 public class CocoaPlayerListener extends PlayerListener
 {
 	private static final int VIEW_DISTANCE = 600;
-	/** Plugin instance */
-	private CocoaPlugin instance;
-
-	/**
-	 * Constructor with the plugin instance
-	 * 
-	 * @param instance
-	 *            plugin instance
-	 */
-	public CocoaPlayerListener( CocoaPlugin instance )
-	{
-		this.instance = instance;
-	}
 
 	/**
 	 * Allows us to process world clicks
@@ -39,12 +25,15 @@ public class CocoaPlayerListener extends PlayerListener
 	@Override
 	public void onPlayerInteract( PlayerInteractEvent event )
 	{
-		Block block = event.getClickedBlock( );
 		Player player = event.getPlayer( );
-		if( instance.usesCocoa( player ) )
+		
+		// Has the player cocoa?
+		if( Util.usesCocoa( player ) )
 		{
+			Block block = event.getClickedBlock( );
 			Action action = event.getAction( );
 
+			// Clicking into air = far away
 			if( action == Action.LEFT_CLICK_AIR )
 			{
 				block = player.getTargetBlock( null, VIEW_DISTANCE );
@@ -63,13 +52,17 @@ public class CocoaPlayerListener extends PlayerListener
 
 			if( action == Action.LEFT_CLICK_BLOCK )
 			{
-				block.setType( Material.AIR );
 				event.setCancelled( true );
+				
+				// Replace block with air
+				block.setType( Material.AIR );
 			}
 			else if( action == Action.RIGHT_CLICK_BLOCK )
 			{
 				event.setCancelled( true );
-				instance.giveItem( player, block );
+				
+				// Give the player the matching item
+				Util.giveItem( player, block );
 			}
 		}
 	}
@@ -80,8 +73,9 @@ public class CocoaPlayerListener extends PlayerListener
 	@Override
 	public void onPlayerDropItem( PlayerDropItemEvent event )
 	{
+		// Has the player cocoa?
 		Player player = event.getPlayer( );
-		if( instance.hasCocoa( player ) )
+		if( Util.hasCocoa( player ) )
 		{
 			// Remove all of the player's items with this type
 			player.getInventory( ).remove( event.getItemDrop( ).getItemStack( ).getType( ) );

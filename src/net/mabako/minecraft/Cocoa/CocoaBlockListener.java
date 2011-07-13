@@ -7,30 +7,25 @@ import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * Refills Items on block placement
+ * @author mabako (mabako@gmail.com)
+ */
 public class CocoaBlockListener extends BlockListener
 {
-	/** Plugin instance */
-	private CocoaPlugin instance;
-
 	/**
-	 * Constructor with the plugin instance
-	 * 
-	 * @param instance
-	 *            plugin instance
+	 * Refill Item stack on block placement
 	 */
-	public CocoaBlockListener( CocoaPlugin instance )
-	{
-		this.instance = instance;
-	}
-	
 	@Override
 	public void onBlockPlace( BlockPlaceEvent event )
 	{
+		// Has the player cocoa?
 		Player player = event.getPlayer( );
-		if( instance.hasCocoa( player ) )
+		if( Util.hasCocoa( player ) )
 		{
+			// Refill the material
 			Block block = event.getBlock( );
-			Material material = instance.findItem( block.getType( ) );
+			Material material = Util.findItemFromBlockMaterial( block.getType( ) );
 			player.setItemInHand( new ItemStack( material, material.getMaxStackSize( ), block.getData( ), block.getData( ) ) );
 		}
 	}

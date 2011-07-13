@@ -1,35 +1,24 @@
 package net.mabako.minecraft.Cocoa;
 
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.player.PlayerListener;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * Cocoa plugin base
- * 
- * @author mabako
+ * Cocoa plugin base - registers events & sets the command handler
+ * @author mabako (mabako@gmail.com)
  */
 public class CocoaPlugin extends JavaPlugin
 {
+	/** Our blocklistener for events */
 	private BlockListener blockListener;
+	
+	/** Our playerlistener for events */
 	private PlayerListener playerListener;
-
-	/**
-	 * Custom disabling event, unused
-	 */
-	@Override
-	public void onDisable( )
-	{
-	}
 
 	/**
 	 * Custom enabling event, registers event and prints a message
@@ -38,144 +27,31 @@ public class CocoaPlugin extends JavaPlugin
 	public void onEnable( )
 	{
 		// Create the block listener
-		blockListener = new CocoaBlockListener( this );
+		blockListener = new CocoaBlockListener( );
 
 		// Create the player listener
-		playerListener = new CocoaPlayerListener( this );
+		playerListener = new CocoaPlayerListener( );
 
 		// Register all relevant events
 		PluginManager pm = getServer( ).getPluginManager( );
+		
 		pm.registerEvent( Event.Type.PLAYER_INTERACT, playerListener, Priority.Normal, this );
 		// pm.registerEvent( Event.Type.PLAYER_DROP_ITEM, playerListener, Priority.Normal, this );
 		pm.registerEvent( Event.Type.BLOCK_PLACE, blockListener, Priority.Normal, this );
 
 		// Set the command handlers
-		getCommand( "cocoa" ).setExecutor( new CocoaCommand( this ) );
+		getCommand( "cocoa" ).setExecutor( new CocoaCommand( ) );
 
 		// Output a message
 		PluginDescriptionFile pdfFile = this.getDescription( );
 		System.out.println( pdfFile.getName( ) + " version " + pdfFile.getVersion( ) );
 	}
 
-	@SuppressWarnings( "deprecation" )
-	public void giveItem( Player player, Block block )
+	/**
+	 * Unused onDisable-method
+	 */
+	@Override
+	public void onDisable( )
 	{
-		Inventory inventory = player.getInventory( );
-		ItemStack[ ] contents = inventory.getContents( );
-		Material material = findItem( block.getType( ) );
-		if( material == null )
-			return;
-
-		// If it is the most recently used item already, do nothing
-		if( same( contents[1], block ) )
-			return;
-
-		// If it's in the last 4 open inventory slots, keep it there
-		for( short i = 5; i <= 8; ++i )
-			if( same( contents[i], block ) )
-				return;
-
-		for( short i = 2; i <= 4; ++i )
-		{
-			if( same( contents[i], block ) )
-			{
-				// Shuffle all lower slots up until the first
-				ItemStack item = contents[i];
-				for( int j = i; j >= 2; --j )
-					inventory.setItem( j, contents[j - 1] );
-				inventory.setItem( 1, item );
-				player.updateInventory( );
-				return;
-			}
-		}
-
-		// Possibly somewhere else in his inventory
-		inventory.remove( material );
-
-		// Only relevant if there is a first item
-		ItemStack lastHistoryItem = null;
-		if( contents[1] != null )
-		{
-			// Save the last history item temporarily
-			lastHistoryItem = contents[4];
-			if( lastHistoryItem != null )
-				inventory.remove( lastHistoryItem );
-
-			// Shuffle history entries
-			for( short i = 4; i >= 2; i-- )
-				inventory.setItem( i, contents[i - 1] );
-		}
-
-		inventory.setItem( 1, new ItemStack( material, material.getMaxStackSize( ), (short) 0,
-				block.getData( ) ) );
-
-		// Give the last history item again (if any)
-		if( lastHistoryItem != null )
-			inventory.addItem( lastHistoryItem );
-
-		player.updateInventory( );
-	}
-
-	public Material findItem( Material material )
-	{
-		switch( material )
-		{
-			case WATER:
-				return Material.STATIONARY_WATER;
-			case LAVA:
-				return Material.STATIONARY_LAVA;
-			case DOUBLE_STEP:
-				return Material.STEP;
-			case REDSTONE_WIRE:
-				return Material.REDSTONE;
-			case BURNING_FURNACE:
-				return Material.FURNACE;
-			case SIGN_POST:
-			case WALL_SIGN:
-				return Material.SIGN;
-			case WOODEN_DOOR:
-				return Material.WOOD_DOOR;
-			case IRON_DOOR_BLOCK:
-				return Material.IRON_DOOR;
-			case GLOWING_REDSTONE_ORE:
-				return Material.REDSTONE_ORE;
-			case REDSTONE_TORCH_OFF:
-				return Material.REDSTONE_TORCH_ON;
-			case CAKE_BLOCK:
-				return Material.CAKE;
-			case DIODE_BLOCK_OFF:
-			case DIODE_BLOCK_ON:
-				return Material.DIODE;
-			case LOCKED_CHEST:
-				return Material.CHEST;
-			case PISTON_EXTENSION:
-			case PISTON_MOVING_PIECE:
-			case PORTAL:
-				return null;
-
-		}
-		return null;
-	}
-
-	private boolean same( ItemStack item, Block block )
-	{
-		if( item == null )
-			return block == null;
-		else
-			return item.getType( ) == findItem( block.getType( ) )
-					&& item.getDurability( ) == block.getData( );
-	}
-
-	public boolean usesCocoa( Player player )
-	{
-		ItemStack inHand = player.getItemInHand( );
-		return inHand.getType( ) == Material.INK_SACK && inHand.getDurability( ) == 3;
-	}
-
-	public boolean hasCocoa( Player player )
-	{
-		Inventory inventory = player.getInventory( );
-		return inventory.getItem( 0 ).getType( ) == Material.INK_SACK
-				&& inventory.getItem( 0 ).getDurability( ) == 3;
 	}
 }

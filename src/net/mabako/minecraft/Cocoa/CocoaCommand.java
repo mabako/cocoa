@@ -8,44 +8,38 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+/**
+ * Handles the /cocoa-Command
+ * @author mabako
+ */
 public class CocoaCommand implements CommandExecutor
 {
-	/** Plugin instance */
-	private CocoaPlugin instance;
-
 	/**
-	 * Constructor with the plugin instance
-	 * 
-	 * @param instance
-	 *            plugin instance
+	 * Command Handler
 	 */
-	public CocoaCommand( CocoaPlugin instance )
-	{
-		this.instance = instance;
-	}
-	
 	@Override
 	public boolean onCommand( CommandSender sender, Command command, String label, String[ ] split )
 	{
+		// We need a player
 		if( !( sender instanceof Player ) )
-		{
 			return false;
-		}
 
+		// Check if the user has the Cocoa item already
 		Player player = (Player) sender;
-
-		
-		
-		if( instance.hasCocoa( player ) )
+		if( Util.hasCocoa( player ) )
 		{
+			// Message on how to use it
 			player.sendMessage( ChatColor.GREEN + "Cocoa: " +
 					ChatColor.YELLOW + "Left Click: " + ChatColor.WHITE + "Destroy Blocks. " +
 					ChatColor.YELLOW + "Right Click: " + ChatColor.WHITE + "Copy Material to inventory." );
 		}
 		else
 		{
+			// Give the player Cocoa
 			ItemStack item = new ItemStack( Material.INK_SACK, 1, (short) 3, (byte) 3 );
 			player.getInventory( ).setItem( 0, item );
+			
+			// Message on how to use it
 			player.sendMessage( ChatColor.GREEN + "Gave you cocoa: " +
 					ChatColor.YELLOW + "Left Click: " + ChatColor.WHITE + "Destroy Blocks. " +
 					ChatColor.YELLOW + "Right Click: " + ChatColor.WHITE + "Copy Material to inventory." );
