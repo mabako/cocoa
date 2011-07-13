@@ -2,11 +2,13 @@ package net.mabako.minecraft.Cocoa;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 
 /**
  * Player Listener for Cocoa that enables its world-editing properties
@@ -81,6 +83,30 @@ public class CocoaPlayerListener extends PlayerListener
 
 			// Remove the dropped item
 			// event.getItemDrop( ).remove( );
+		}
+	}
+	
+	/**
+	 * Make sure players only have items once in their inventory
+	 */
+	@Override
+	public void onPlayerPickupItem( PlayerPickupItemEvent event )
+	{
+		// Has the player cocoa?
+		Player player = event.getPlayer( );
+		if( Util.hasCocoa( player ) )
+		{
+			Item item = event.getItem( );
+			
+			// Check if the player has such an item
+			if( player.getInventory( ).contains( item.getItemStack( ).getType( ) ) )
+			{
+				// Stop the player from picking up the item
+				event.setCancelled( true );
+				
+				// Remove the item from the world
+				item.remove( );
+			}
 		}
 	}
 }

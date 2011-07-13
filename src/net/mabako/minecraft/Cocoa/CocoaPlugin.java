@@ -36,7 +36,8 @@ public class CocoaPlugin extends JavaPlugin
 		PluginManager pm = getServer( ).getPluginManager( );
 		
 		pm.registerEvent( Event.Type.PLAYER_INTERACT, playerListener, Priority.Normal, this );
-		// pm.registerEvent( Event.Type.PLAYER_DROP_ITEM, playerListener, Priority.Normal, this );
+		//pm.registerEvent( Event.Type.PLAYER_DROP_ITEM, playerListener, Priority.Normal, this );
+		pm.registerEvent( Event.Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Normal, this );
 		pm.registerEvent( Event.Type.BLOCK_PLACE, blockListener, Priority.Normal, this );
 
 		// Set the command handlers
