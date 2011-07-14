@@ -9,7 +9,9 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * Refills Items on block placement
+ * 
  * @author mabako (mabako@gmail.com)
+ * @version 201107142356
  */
 public class CocoaBlockListener extends BlockListener
 {

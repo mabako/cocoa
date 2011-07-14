@@ -10,7 +10,9 @@ import org.bukkit.command.CommandSender;
 
 /**
  * Handles the /cocoa-Command
- * @author mabako
+ * 
+ * @author mabako (mabako@gmail.com)
+ * @version 201107142356
  */
 public class CocoaCommand implements CommandExecutor
 {
@@ -29,20 +31,16 @@ public class CocoaCommand implements CommandExecutor
 		if( Util.hasCocoa( player ) )
 		{
 			// Message on how to use it
-			player.sendMessage( ChatColor.GREEN + "Cocoa: " +
-					ChatColor.YELLOW + "Left Click: " + ChatColor.WHITE + "Destroy Blocks. " +
-					ChatColor.YELLOW + "Right Click: " + ChatColor.WHITE + "Copy Material to inventory." );
+			player.sendMessage( ChatColor.GREEN + "Cocoa: " + ChatColor.YELLOW + "Left Click: " + ChatColor.WHITE + "Destroy Blocks. " + ChatColor.YELLOW + "Right Click: " + ChatColor.WHITE + "Copy Material to inventory." );
 		}
 		else
 		{
 			// Give the player Cocoa
 			ItemStack item = new ItemStack( Material.INK_SACK, 1, (short) 3, (byte) 3 );
 			player.getInventory( ).setItem( 0, item );
-			
+
 			// Message on how to use it
-			player.sendMessage( ChatColor.GREEN + "Gave you cocoa: " +
-					ChatColor.YELLOW + "Left Click: " + ChatColor.WHITE + "Destroy Blocks. " +
-					ChatColor.YELLOW + "Right Click: " + ChatColor.WHITE + "Copy Material to inventory." );
+			player.sendMessage( ChatColor.GREEN + "Gave you cocoa: " + ChatColor.YELLOW + "Left Click: " + ChatColor.WHITE + "Destroy Blocks. " + ChatColor.YELLOW + "Right Click: " + ChatColor.WHITE + "Copy Material to inventory." );
 		}
 		return true;
 	}

@@ -10,13 +10,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Cocoa plugin base - registers events & sets the command handler
+ * 
  * @author mabako (mabako@gmail.com)
+ * @version 201107142356
  */
 public class CocoaPlugin extends JavaPlugin
 {
 	/** Our blocklistener for events */
 	private BlockListener blockListener;
-	
+
 	/** Our playerlistener for events */
 	private PlayerListener playerListener;
 
@@ -34,7 +36,7 @@ public class CocoaPlugin extends JavaPlugin
 
 		// Register all relevant events
 		PluginManager pm = getServer( ).getPluginManager( );
-		
+
 		pm.registerEvent( Event.Type.PLAYER_INTERACT, playerListener, Priority.Normal, this );
 		//pm.registerEvent( Event.Type.PLAYER_DROP_ITEM, playerListener, Priority.Normal, this );
 		pm.registerEvent( Event.Type.PLAYER_PICKUP_ITEM, playerListener, Priority.Normal, this );
