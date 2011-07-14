@@ -9,26 +9,34 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Player Listener for Cocoa that enables its world-editing properties
+ * 
  * @author mabako (mabako@gmail.com)
+ * @version 201107142359
  */
 public class CocoaPlayerListener extends PlayerListener
 {
-	private static final int VIEW_DISTANCE = 600;
+	/**
+	 * Maximum Distance of Blocks to Check
+	 */
+	private static final int VIEW_DISTANCE = 200;
 
 	/**
 	 * Allows us to process world clicks
 	 * 
-	 * Left Click - replace block with Air
-	 * Right Click - give you the block's material
+	 * <ul>
+	 * <li><b>Left Click</b> - replace block with Air</li>
+	 * <li><b>Right Click</b> - give you the block's material</li>
+	 * </ul>
 	 */
 	@Override
 	public void onPlayerInteract( PlayerInteractEvent event )
 	{
 		Player player = event.getPlayer( );
-		
+
 		// Has the player cocoa?
 		if( Util.usesCocoa( player ) )
 		{
@@ -54,14 +62,14 @@ public class CocoaPlayerListener extends PlayerListener
 			if( action == Action.LEFT_CLICK_BLOCK )
 			{
 				event.setCancelled( true );
-				
+
 				// Replace block with air
 				block.setType( Material.AIR );
 			}
 			else if( action == Action.RIGHT_CLICK_BLOCK )
 			{
 				event.setCancelled( true );
-				
+
 				// Give the player the matching item
 				Util.giveItem( player, block );
 			}
@@ -85,7 +93,7 @@ public class CocoaPlayerListener extends PlayerListener
 			// event.getItemDrop( ).remove( );
 		}
 	}
-	
+
 	/**
 	 * Make sure players only have items once in their inventory
 	 */
@@ -97,13 +105,14 @@ public class CocoaPlayerListener extends PlayerListener
 		if( Util.hasCocoa( player ) )
 		{
 			Item item = event.getItem( );
-			
+			ItemStack itemStack = item.getItemStack( );
+
 			// Check if the player has such an item
-			if( player.getInventory( ).contains( item.getItemStack( ).getType( ) ) )
+			if( Util.hasItem( player, itemStack.getType( ), itemStack.getDurability( ) ) )
 			{
 				// Stop the player from picking up the item
 				event.setCancelled( true );
-				
+
 				// Remove the item from the world
 				item.remove( );
 			}

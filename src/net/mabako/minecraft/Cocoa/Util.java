@@ -8,14 +8,19 @@ import org.bukkit.inventory.ItemStack;
 
 /**
  * Helper functions
+ * 
  * @author mabako (mabako@gmail.com)
+ * @version 201107142356
  */
 public class Util
 {
 	/**
 	 * Gives the player an item based on the block data
-	 * @param player player to give the item to
-	 * @param block block to copy the item info from
+	 * 
+	 * @param player
+	 *            player to give the item to
+	 * @param block
+	 *            block to copy the item info from
 	 */
 	@SuppressWarnings( "deprecation" )
 	public static void giveItem( Player player, Block block )
@@ -76,6 +81,13 @@ public class Util
 		player.updateInventory( );
 	}
 
+	/**
+	 * Returns the Item Material that Blocks should be in inventory
+	 * 
+	 * @param material
+	 *            block's material
+	 * @return item's material
+	 */
 	public static Material findItemFromBlockMaterial( Material material )
 	{
 		switch( material )
@@ -112,12 +124,24 @@ public class Util
 			case PISTON_EXTENSION:
 			case PISTON_MOVING_PIECE:
 			case PORTAL:
+			case BEDROCK:
 				return null;
 
 		}
 		return material;
 	}
 
+	/**
+	 * Checks whether an item and a block are identical, meaning they would
+	 * represent the exact same item (keeping colored wool in mind)
+	 * 
+	 * @param item
+	 *            the inventory item to compare with
+	 * @param block
+	 *            the block to compare to
+	 * @return <code>true</code> if the item and block are equal,
+	 *         <code>false</code> otherwise
+	 */
 	private static boolean same( ItemStack item, Block block )
 	{
 		if( item == null )
@@ -133,10 +157,40 @@ public class Util
 		return inHand.getType( ) == Material.INK_SACK && inHand.getDurability( ) == 3;
 	}
 
+	/**
+	 * This checks whether the player has Cocoa as his first item in hand. This
+	 * does <i>not</i> mean the player has no Cocoa at all
+	 * 
+	 * @param player
+	 *            player to check
+	 * @return <code>true</code> if the player has Cocoa, <code>false</code>
+	 *         otherwise
+	 */
 	public static boolean hasCocoa( Player player )
 	{
 		Inventory inventory = player.getInventory( );
 		return inventory.getItem( 0 ).getType( ) == Material.INK_SACK
 				&& inventory.getItem( 0 ).getDurability( ) == 3;
+	}
+
+	/**
+	 * Checks if the player has any of this specific item in his inventory
+	 * 
+	 * @param player
+	 *            player to check
+	 * @param material
+	 *            material to check for
+	 * @param durability
+	 *            damage value (colored wool, etc) to check
+	 * @return <code>true</code> if found, <code>false</code> otherwise
+	 */
+	public static boolean hasItem( Player player, Material material, short durability )
+	{
+		Inventory inventory = player.getInventory( );
+		ItemStack[ ] contents = inventory.getContents( );
+		for( ItemStack i : contents )
+			if( i.getType( ) == material && i.getDurability( ) == durability )
+				return true;
+		return false;
 	}
 }
