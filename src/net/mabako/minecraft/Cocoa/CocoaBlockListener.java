@@ -26,7 +26,9 @@ public class CocoaBlockListener extends BlockListener
 			// Refill the material
 			Block block = event.getBlock( );
 			Material material = Util.findItemFromBlockMaterial( block.getType( ) );
-			player.setItemInHand( new ItemStack( material, material.getMaxStackSize( ), block.getData( ), block.getData( ) ) );
+
+			if( material != null )
+				player.setItemInHand( new ItemStack( material, material.getMaxStackSize( ), block.getData( ), block.getData( ) ) );
 		}
 	}
 }

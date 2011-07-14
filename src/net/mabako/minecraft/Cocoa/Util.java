@@ -108,6 +108,7 @@ public class Util
 				return Material.DIODE;
 			case LOCKED_CHEST:
 				return Material.CHEST;
+			case AIR:
 			case PISTON_EXTENSION:
 			case PISTON_MOVING_PIECE:
 			case PORTAL:
