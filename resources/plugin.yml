@@ -2,7 +2,7 @@ name: Cocoa
 main: net.mabako.minecraft.Cocoa.CocoaPlugin
 website: http://minecraft.mabako.net
 author: mabako (mabako@gmail.com)
-version: 1.04
+version: 1.05
 description: Enables world-editing with Cocoa
 commands:
     cocoa:

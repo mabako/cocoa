@@ -189,7 +189,7 @@ public class Util
 		Inventory inventory = player.getInventory( );
 		ItemStack[ ] contents = inventory.getContents( );
 		for( ItemStack i : contents )
-			if( i.getType( ) == material && i.getDurability( ) == durability )
+			if( i != null && i.getType( ) == material && i.getDurability( ) == durability )
 				return true;
 		return false;
 	}
